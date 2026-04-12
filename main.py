@@ -2,23 +2,72 @@ import ssl
 import asyncio
 import logging
 import aiohttp
+import random
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
-import random
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ConversationHandler, MessageHandler, filters, ContextTypes
 
-# ====== استيراد ملفات Protobuf (يجب أن تكون موجودة في نفس المجلد) ======
-try:
-    import MajorLoginReq_pb2
-    import MajorLoginRes_pb2
-    import GetLoginDataRes_pb2
-except ImportError as e:
-    print(f"خطأ: لم يتم العثور على ملفات protobuf المطلوبة: {e}")
-    print("تأكد من وجود MajorLoginReq_pb2.py, MajorLoginRes_pb2.py, GetLoginDataRes_pb2.py")
-    exit(1)
+# ============================================================
+# PROTOTIPE DEFINITIONS (INLINE)
+# ============================================================
+# استيراد مكتبة protobuf الأساسية
+from google.protobuf import descriptor as _descriptor
+from google.protobuf import descriptor_pool as _descriptor_pool
+from google.protobuf import symbol_database as _symbol_database
+from google.protobuf.internal import builder as _builder
+from google.protobuf import runtime_version as _runtime_version
 
-# ====== الإعدادات الثابتة ======
+_sym_db = _symbol_database.Default()
+
+# --- MajorLoginReq ---
+DESCRIPTOR_MajorLoginReq = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\x13MajorLoginReq.proto\"\xfa\n\n\nMajorLogin\x12\x12\n\nevent_time\x18\x03 \x01(\t\x12\x11\n\tgame_name\x18\x04 \x01(\t\x12\x13\n\x0bplatform_id\x18\x05 \x01(\x05\x12\x16\n\x0e\x63lient_version\x18\x07 \x01(\t\x12\x17\n\x0fsystem_software\x18\x08 \x01(\t\x12\x17\n\x0fsystem_hardware\x18\t \x01(\t\x12\x18\n\x10telecom_operator\x18\n \x01(\t\x12\x14\n\x0cnetwork_type\x18\x0b \x01(\t\x12\x14\n\x0cscreen_width\x18\x0c \x01(\r\x12\x15\n\rscreen_height\x18\r \x01(\r\x12\x12\n\nscreen_dpi\x18\x0e \x01(\t\x12\x19\n\x11processor_details\x18\x0f \x01(\t\x12\x0e\n\x06memory\x18\x10 \x01(\r\x12\x14\n\x0cgpu_renderer\x18\x11 \x01(\t\x12\x13\n\x0bgpu_version\x18\x12 \x01(\t\x12\x18\n\x10unique_device_id\x18\x13 \x01(\t\x12\x11\n\tclient_ip\x18\x14 \x01(\t\x12\x10\n\x08language\x18\x15 \x01(\t\x12\x0f\n\x07open_id\x18\x16 \x01(\t\x12\x14\n\x0copen_id_type\x18\x17 \x01(\t\x12\x13\n\x0b\x64\x65vice_type\x18\x18 \x01(\t\x12\'\n\x10memory_available\x18\x19 \x01(\x0b\x32\r.GameSecurity\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x1d \x01(\t\x12\x17\n\x0fplatform_sdk_id\x18\x1e \x01(\x05\x12\x1a\n\x12network_operator_a\x18) \x01(\t\x12\x16\n\x0enetwork_type_a\x18* \x01(\t\x12\x1c\n\x14\x63lient_using_version\x18\x39 \x01(\t\x12\x1e\n\x16\x65xternal_storage_total\x18< \x01(\x05\x12\"\n\x1a\x65xternal_storage_available\x18= \x01(\x05\x12\x1e\n\x16internal_storage_total\x18> \x01(\x05\x12\"\n\x1ainternal_storage_available\x18? \x01(\x05\x12#\n\x1bgame_disk_storage_available\x18@ \x01(\x05\x12\x1f\n\x17game_disk_storage_total\x18\x41 \x01(\x05\x12%\n\x1d\x65xternal_sdcard_avail_storage\x18\x42 \x01(\x05\x12%\n\x1d\x65xternal_sdcard_total_storage\x18\x43 \x01(\x05\x12\x10\n\x08login_by\x18I \x01(\x05\x12\x14\n\x0clibrary_path\x18J \x01(\t\x12\x12\n\nreg_avatar\x18L \x01(\x05\x12\x15\n\rlibrary_token\x18M \x01(\t\x12\x14\n\x0c\x63hannel_type\x18N \x01(\x05\x12\x10\n\x08\x63pu_type\x18O \x01(\x05\x12\x18\n\x10\x63pu_architecture\x18Q \x01(\t\x12\x1b\n\x13\x63lient_version_code\x18S \x01(\t\x12\x14\n\x0cgraphics_api\x18V \x01(\t\x12\x1d\n\x15supported_astc_bitset\x18W \x01(\r\x12\x1a\n\x12login_open_id_type\x18X \x01(\x05\x12\x18\n\x10\x61nalytics_detail\x18Y \x01(\x0c\x12\x14\n\x0cloading_time\x18\\ \x01(\r\x12\x17\n\x0frelease_channel\x18] \x01(\t\x12\x12\n\nextra_info\x18^ \x01(\t\x12 \n\x18\x61ndroid_engine_init_flag\x18_ \x01(\r\x12\x0f\n\x07if_push\x18\x61 \x01(\x05\x12\x0e\n\x06is_vpn\x18\x62 \x01(\x05\x12\x1c\n\x14origin_platform_type\x18\x63 \x01(\t\x12\x1d\n\x15primary_platform_type\x18\x64 \x01(\t\"5\n\x0cGameSecurity\x12\x0f\n\x07version\x18\x06 \x01(\x05\x12\x14\n\x0chidden_value\x18\x08 \x01(\x04\x62\x06proto3'
+)
+_globals_MajorLoginReq = globals()
+_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR_MajorLoginReq, _globals_MajorLoginReq)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR_MajorLoginReq, 'MajorLoginReq_pb2', _globals_MajorLoginReq)
+if not _descriptor._USE_C_DESCRIPTORS:
+    DESCRIPTOR_MajorLoginReq._options = None
+    _globals_MajorLoginReq['_MAJORLOGIN']._serialized_start = 24
+    _globals_MajorLoginReq['_MAJORLOGIN']._serialized_end = 1426
+    _globals_MajorLoginReq['_GAMESECURITY']._serialized_start = 1428
+    _globals_MajorLoginReq['_GAMESECURITY']._serialized_end = 1481
+
+MajorLogin = _globals_MajorLoginReq.get('MajorLogin')
+GameSecurity = _globals_MajorLoginReq.get('GameSecurity')
+
+# --- MajorLoginRes ---
+DESCRIPTOR_MajorLoginRes = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\x13MajorLoginRes.proto\"\x99\x02\n\rMajorLoginRes\x12\x0b\n\x03url\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\x12\x13\n\x0b\x61\x63\x63ount_uid\x18\x03 \x01(\x04\x12\x0b\n\x03key\x18\x04 \x01(\x0c\x12\n\n\x02iv\x18\x05 \x01(\x0c\x12\x11\n\ttimestamp\x18\x06 \x01(\x03\x12\x14\n\x0c\x63ountry_code\x18\x07 \x01(\t\x12\x13\n\x0b\x61sset_bundle\x18\x08 \x01(\t\x12\x18\n\x10\x61nnouncement_url\x18\t \x01(\t\x12\x1a\n\x12maintenance_state\x18\n \x01(\x05\x12\x1a\n\x12\x63lient_kick_reason\x18\x0b \x01(\x05\x12\x14\n\x0c\x61nonymous_key\x18\x0c \x01(\t\x12\x12\n\ndebug_mode\x18\r \x01(\x08\x62\x06proto3'
+)
+_globals_MajorLoginRes = globals()
+_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR_MajorLoginRes, _globals_MajorLoginRes)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR_MajorLoginRes, 'MajorLoginRes_pb2', _globals_MajorLoginRes)
+if not _descriptor._USE_C_DESCRIPTORS:
+    DESCRIPTOR_MajorLoginRes._options = None
+    _globals_MajorLoginRes['_MAJORLOGINRES']._serialized_start = 24
+    _globals_MajorLoginRes['_MAJORLOGINRES']._serialized_end = 305
+
+MajorLoginRes = _globals_MajorLoginRes.get('MajorLoginRes')
+
+# --- GetLoginDataRes ---
+DESCRIPTOR_GetLoginDataRes = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\x15GetLoginDataRes.proto\"\xa4\x01\n\x0cGetLoginData\x12\x12\n\nAccountUID\x18\x01 \x01(\x04\x12\x0e\n\x06Region\x18\x03 \x01(\t\x12\x13\n\x0b\x41\x63\x63ountName\x18\x04 \x01(\t\x12\x16\n\x0eOnline_IP_Port\x18\x0e \x01(\t\x12\x0f\n\x07\x43lan_ID\x18\x14 \x01(\x03\x12\x16\n\x0e\x41\x63\x63ountIP_Port\x18  \x01(\t\x12\x1a\n\x12\x43lan_Compiled_Data\x18\x37 \x01(\tb\x06proto3'
+)
+_globals_GetLoginDataRes = globals()
+_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR_GetLoginDataRes, _globals_GetLoginDataRes)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR_GetLoginDataRes, 'GetLoginDataRes_pb2', _globals_GetLoginDataRes)
+if not _descriptor._USE_C_DESCRIPTORS:
+    DESCRIPTOR_GetLoginDataRes._loaded_options = None
+    _globals_GetLoginDataRes['_GETLOGINDATA']._serialized_start = 26
+    _globals_GetLoginDataRes['_GETLOGINDATA']._serialized_end = 190
+
+GetLoginData = _globals_GetLoginDataRes.get('GetLoginData')
+
+# ============================================================
+# الثوابت والإعدادات
+# ============================================================
 GARENA_TOKEN_URL = "https://100067.connect.garena.com/oauth/guest/token/grant"
 MAJOR_LOGIN_URL = "https://loginbp.common.ggbluefox.com/MajorLogin"
 FIXED_AES_KEY = b'Yg&tc%DEuh6%Zc^8'
@@ -35,10 +84,11 @@ MAJOR_LOGIN_HEADERS = {
     'ReleaseVersion': "OB53"
 }
 
-# حالات المحادثة
 WAIT_UID, WAIT_PASSWORD = range(2)
 
-# ====== دوال مساعدة (منقولة من السكربت الأصلي) ======
+# ============================================================
+# دوال المصادقة
+# ============================================================
 async def get_random_user_agent():
     versions = [
         '4.0.18P6', '4.0.19P7', '4.0.20P1', '4.1.0P3', '4.1.5P2', '4.2.1P8',
@@ -89,7 +139,7 @@ async def get_access_token(uid, password):
             return data.get("open_id"), data.get("access_token")
 
 async def build_major_login_payload(open_id, access_token):
-    major_login = MajorLoginReq_pb2.MajorLogin()
+    major_login = MajorLogin()
     major_login.event_time = "2025-06-04 19:48:07"
     major_login.game_name = "free fire"
     major_login.platform_id = 1
@@ -161,7 +211,7 @@ async def send_major_login(payload):
             return None
 
 def decode_major_login_response(response_bytes):
-    proto = MajorLoginRes_pb2.MajorLoginRes()
+    proto = MajorLoginRes()
     proto.ParseFromString(response_bytes)
     return proto
 
@@ -179,7 +229,7 @@ async def fetch_login_data(base_url, payload, token):
             return None
 
 def decode_get_login_data_response(response_bytes):
-    proto = GetLoginDataRes_pb2.GetLoginData()
+    proto = GetLoginData()
     proto.ParseFromString(response_bytes)
     return proto
 
@@ -216,7 +266,9 @@ async def login_process(uid, password):
         f"• Encryption IV: `{major_data.iv.hex()}`"
     )
 
-# ====== أوامر البوت ======
+# ============================================================
+# بوت تيليجرام
+# ============================================================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "👋 أهلاً بك في بوت تسجيل الدخول لـ Free Fire\n\n"
@@ -242,7 +294,6 @@ async def receive_password(update: Update, context: ContextTypes.DEFAULT_TYPE):
     password = update.message.text.strip()
     uid = context.user_data['uid']
 
-    # حذف رسالة كلمة المرور للحفاظ على الخصوصية (اختياري)
     await update.message.delete()
 
     status_msg = await update.message.reply_text("⏳ جاري تسجيل الدخول... يرجى الانتظار.")
@@ -252,11 +303,9 @@ async def receive_password(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await status_msg.edit_text(result, parse_mode="Markdown")
     return ConversationHandler.END
 
-# ====== التشغيل ======
 def main():
     logging.basicConfig(level=logging.INFO)
-
-    # استبدل "YOUR_BOT_TOKEN" بالتوكن الخاص ببوتك
+    # استبدل بالتوكن الصحيح
     application = Application.builder().token("8769355202:AAEJFIXicyJNdhor2HM98daIUQ9wFZd0mwY").build()
 
     conv_handler = ConversationHandler(

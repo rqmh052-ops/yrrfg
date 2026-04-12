@@ -1,5 +1,4 @@
 aiohttp>=3.8.0
-cryptography>=41.0.0
+pycryptodome>=3.19.0
 protobuf>=4.21.0
 python-telegram-bot>=20.0
-pycryptodome>=3.19.0
