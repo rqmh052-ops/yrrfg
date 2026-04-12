@@ -9,61 +9,263 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ConversationHandler, MessageHandler, filters, ContextTypes
 
 # ============================================================
-# PROTOTIPE DEFINITIONS (INLINE)
+# PROTOTIPE DEFINITIONS (INLINE) – مصححة بالكامل
 # ============================================================
-# استيراد مكتبة protobuf الأساسية
-from google.protobuf import descriptor as _descriptor
-from google.protobuf import descriptor_pool as _descriptor_pool
-from google.protobuf import symbol_database as _symbol_database
-from google.protobuf.internal import builder as _builder
-from google.protobuf import runtime_version as _runtime_version
+from google.protobuf import descriptor_pb2
+from google.protobuf import message_factory
+from google.protobuf import symbol_database
 
-_sym_db = _symbol_database.Default()
+_sym_db = symbol_database.Default()
 
 # --- MajorLoginReq ---
-DESCRIPTOR_MajorLoginReq = _descriptor_pool.Default().AddSerializedFile(
-    b'\n\x13MajorLoginReq.proto\"\xfa\n\n\nMajorLogin\x12\x12\n\nevent_time\x18\x03 \x01(\t\x12\x11\n\tgame_name\x18\x04 \x01(\t\x12\x13\n\x0bplatform_id\x18\x05 \x01(\x05\x12\x16\n\x0e\x63lient_version\x18\x07 \x01(\t\x12\x17\n\x0fsystem_software\x18\x08 \x01(\t\x12\x17\n\x0fsystem_hardware\x18\t \x01(\t\x12\x18\n\x10telecom_operator\x18\n \x01(\t\x12\x14\n\x0cnetwork_type\x18\x0b \x01(\t\x12\x14\n\x0cscreen_width\x18\x0c \x01(\r\x12\x15\n\rscreen_height\x18\r \x01(\r\x12\x12\n\nscreen_dpi\x18\x0e \x01(\t\x12\x19\n\x11processor_details\x18\x0f \x01(\t\x12\x0e\n\x06memory\x18\x10 \x01(\r\x12\x14\n\x0cgpu_renderer\x18\x11 \x01(\t\x12\x13\n\x0bgpu_version\x18\x12 \x01(\t\x12\x18\n\x10unique_device_id\x18\x13 \x01(\t\x12\x11\n\tclient_ip\x18\x14 \x01(\t\x12\x10\n\x08language\x18\x15 \x01(\t\x12\x0f\n\x07open_id\x18\x16 \x01(\t\x12\x14\n\x0copen_id_type\x18\x17 \x01(\t\x12\x13\n\x0b\x64\x65vice_type\x18\x18 \x01(\t\x12\'\n\x10memory_available\x18\x19 \x01(\x0b\x32\r.GameSecurity\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x1d \x01(\t\x12\x17\n\x0fplatform_sdk_id\x18\x1e \x01(\x05\x12\x1a\n\x12network_operator_a\x18) \x01(\t\x12\x16\n\x0enetwork_type_a\x18* \x01(\t\x12\x1c\n\x14\x63lient_using_version\x18\x39 \x01(\t\x12\x1e\n\x16\x65xternal_storage_total\x18< \x01(\x05\x12\"\n\x1a\x65xternal_storage_available\x18= \x01(\x05\x12\x1e\n\x16internal_storage_total\x18> \x01(\x05\x12\"\n\x1ainternal_storage_available\x18? \x01(\x05\x12#\n\x1bgame_disk_storage_available\x18@ \x01(\x05\x12\x1f\n\x17game_disk_storage_total\x18\x41 \x01(\x05\x12%\n\x1d\x65xternal_sdcard_avail_storage\x18\x42 \x01(\x05\x12%\n\x1d\x65xternal_sdcard_total_storage\x18\x43 \x01(\x05\x12\x10\n\x08login_by\x18I \x01(\x05\x12\x14\n\x0clibrary_path\x18J \x01(\t\x12\x12\n\nreg_avatar\x18L \x01(\x05\x12\x15\n\rlibrary_token\x18M \x01(\t\x12\x14\n\x0c\x63hannel_type\x18N \x01(\x05\x12\x10\n\x08\x63pu_type\x18O \x01(\x05\x12\x18\n\x10\x63pu_architecture\x18Q \x01(\t\x12\x1b\n\x13\x63lient_version_code\x18S \x01(\t\x12\x14\n\x0cgraphics_api\x18V \x01(\t\x12\x1d\n\x15supported_astc_bitset\x18W \x01(\r\x12\x1a\n\x12login_open_id_type\x18X \x01(\x05\x12\x18\n\x10\x61nalytics_detail\x18Y \x01(\x0c\x12\x14\n\x0cloading_time\x18\\ \x01(\r\x12\x17\n\x0frelease_channel\x18] \x01(\t\x12\x12\n\nextra_info\x18^ \x01(\t\x12 \n\x18\x61ndroid_engine_init_flag\x18_ \x01(\r\x12\x0f\n\x07if_push\x18\x61 \x01(\x05\x12\x0e\n\x06is_vpn\x18\x62 \x01(\x05\x12\x1c\n\x14origin_platform_type\x18\x63 \x01(\t\x12\x1d\n\x15primary_platform_type\x18\x64 \x01(\t\"5\n\x0cGameSecurity\x12\x0f\n\x07version\x18\x06 \x01(\x05\x12\x14\n\x0chidden_value\x18\x08 \x01(\x04\x62\x06proto3'
-)
-_globals_MajorLoginReq = globals()
-_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR_MajorLoginReq, _globals_MajorLoginReq)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR_MajorLoginReq, 'MajorLoginReq_pb2', _globals_MajorLoginReq)
-if not _descriptor._USE_C_DESCRIPTORS:
-    DESCRIPTOR_MajorLoginReq._options = None
-    _globals_MajorLoginReq['_MAJORLOGIN']._serialized_start = 24
-    _globals_MajorLoginReq['_MAJORLOGIN']._serialized_end = 1426
-    _globals_MajorLoginReq['_GAMESECURITY']._serialized_start = 1428
-    _globals_MajorLoginReq['_GAMESECURITY']._serialized_end = 1481
+DESCRIPTOR_MajorLoginReq = descriptor_pb2.FileDescriptorProto()
+DESCRIPTOR_MajorLoginReq.name = 'MajorLoginReq.proto'
+DESCRIPTOR_MajorLoginReq.package = ''
+DESCRIPTOR_MajorLoginReq.syntax = 'proto3'
 
-MajorLogin = _globals_MajorLoginReq.get('MajorLogin')
-GameSecurity = _globals_MajorLoginReq.get('GameSecurity')
+# Message MajorLogin
+msg_major_login = DESCRIPTOR_MajorLoginReq.message_type.add()
+msg_major_login.name = 'MajorLogin'
+# event_time
+field = msg_major_login.field.add()
+field.name = 'event_time'; field.number = 3; field.type = 9; field.label = 1
+# game_name
+field = msg_major_login.field.add()
+field.name = 'game_name'; field.number = 4; field.type = 9; field.label = 1
+# platform_id
+field = msg_major_login.field.add()
+field.name = 'platform_id'; field.number = 5; field.type = 5; field.label = 1
+# client_version
+field = msg_major_login.field.add()
+field.name = 'client_version'; field.number = 7; field.type = 9; field.label = 1
+# system_software
+field = msg_major_login.field.add()
+field.name = 'system_software'; field.number = 8; field.type = 9; field.label = 1
+# system_hardware
+field = msg_major_login.field.add()
+field.name = 'system_hardware'; field.number = 9; field.type = 9; field.label = 1
+# telecom_operator
+field = msg_major_login.field.add()
+field.name = 'telecom_operator'; field.number = 10; field.type = 9; field.label = 1
+# network_type
+field = msg_major_login.field.add()
+field.name = 'network_type'; field.number = 11; field.type = 9; field.label = 1
+# screen_width
+field = msg_major_login.field.add()
+field.name = 'screen_width'; field.number = 12; field.type = 13; field.label = 1
+# screen_height
+field = msg_major_login.field.add()
+field.name = 'screen_height'; field.number = 13; field.type = 13; field.label = 1
+# screen_dpi
+field = msg_major_login.field.add()
+field.name = 'screen_dpi'; field.number = 14; field.type = 9; field.label = 1
+# processor_details
+field = msg_major_login.field.add()
+field.name = 'processor_details'; field.number = 15; field.type = 9; field.label = 1
+# memory
+field = msg_major_login.field.add()
+field.name = 'memory'; field.number = 16; field.type = 13; field.label = 1
+# gpu_renderer
+field = msg_major_login.field.add()
+field.name = 'gpu_renderer'; field.number = 17; field.type = 9; field.label = 1
+# gpu_version
+field = msg_major_login.field.add()
+field.name = 'gpu_version'; field.number = 18; field.type = 9; field.label = 1
+# unique_device_id
+field = msg_major_login.field.add()
+field.name = 'unique_device_id'; field.number = 19; field.type = 9; field.label = 1
+# client_ip
+field = msg_major_login.field.add()
+field.name = 'client_ip'; field.number = 20; field.type = 9; field.label = 1
+# language
+field = msg_major_login.field.add()
+field.name = 'language'; field.number = 21; field.type = 9; field.label = 1
+# open_id
+field = msg_major_login.field.add()
+field.name = 'open_id'; field.number = 22; field.type = 9; field.label = 1
+# open_id_type
+field = msg_major_login.field.add()
+field.name = 'open_id_type'; field.number = 23; field.type = 9; field.label = 1
+# device_type
+field = msg_major_login.field.add()
+field.name = 'device_type'; field.number = 24; field.type = 9; field.label = 1
+# memory_available (nested message)
+nested_msg = msg_major_login.nested_type.add()
+nested_msg.name = 'GameSecurity'
+field = nested_msg.field.add()
+field.name = 'version'; field.number = 6; field.type = 5; field.label = 1
+field = nested_msg.field.add()
+field.name = 'hidden_value'; field.number = 8; field.type = 4; field.label = 1
+field = msg_major_login.field.add()
+field.name = 'memory_available'; field.number = 25; field.type = 11; field.label = 1; field.type_name = '.MajorLogin.GameSecurity'
+# access_token
+field = msg_major_login.field.add()
+field.name = 'access_token'; field.number = 29; field.type = 9; field.label = 1
+# platform_sdk_id
+field = msg_major_login.field.add()
+field.name = 'platform_sdk_id'; field.number = 30; field.type = 5; field.label = 1
+# network_operator_a
+field = msg_major_login.field.add()
+field.name = 'network_operator_a'; field.number = 41; field.type = 9; field.label = 1
+# network_type_a
+field = msg_major_login.field.add()
+field.name = 'network_type_a'; field.number = 42; field.type = 9; field.label = 1
+# client_using_version
+field = msg_major_login.field.add()
+field.name = 'client_using_version'; field.number = 57; field.type = 9; field.label = 1
+# external_storage_total
+field = msg_major_login.field.add()
+field.name = 'external_storage_total'; field.number = 60; field.type = 5; field.label = 1
+# external_storage_available
+field = msg_major_login.field.add()
+field.name = 'external_storage_available'; field.number = 61; field.type = 5; field.label = 1
+# internal_storage_total
+field = msg_major_login.field.add()
+field.name = 'internal_storage_total'; field.number = 62; field.type = 5; field.label = 1
+# internal_storage_available
+field = msg_major_login.field.add()
+field.name = 'internal_storage_available'; field.number = 63; field.type = 5; field.label = 1
+# game_disk_storage_available
+field = msg_major_login.field.add()
+field.name = 'game_disk_storage_available'; field.number = 64; field.type = 5; field.label = 1
+# game_disk_storage_total
+field = msg_major_login.field.add()
+field.name = 'game_disk_storage_total'; field.number = 65; field.type = 5; field.label = 1
+# external_sdcard_avail_storage
+field = msg_major_login.field.add()
+field.name = 'external_sdcard_avail_storage'; field.number = 66; field.type = 5; field.label = 1
+# external_sdcard_total_storage
+field = msg_major_login.field.add()
+field.name = 'external_sdcard_total_storage'; field.number = 67; field.type = 5; field.label = 1
+# login_by
+field = msg_major_login.field.add()
+field.name = 'login_by'; field.number = 73; field.type = 5; field.label = 1
+# library_path
+field = msg_major_login.field.add()
+field.name = 'library_path'; field.number = 74; field.type = 9; field.label = 1
+# reg_avatar
+field = msg_major_login.field.add()
+field.name = 'reg_avatar'; field.number = 76; field.type = 5; field.label = 1
+# library_token
+field = msg_major_login.field.add()
+field.name = 'library_token'; field.number = 77; field.type = 9; field.label = 1
+# channel_type
+field = msg_major_login.field.add()
+field.name = 'channel_type'; field.number = 78; field.type = 5; field.label = 1
+# cpu_type
+field = msg_major_login.field.add()
+field.name = 'cpu_type'; field.number = 79; field.type = 5; field.label = 1
+# cpu_architecture
+field = msg_major_login.field.add()
+field.name = 'cpu_architecture'; field.number = 81; field.type = 9; field.label = 1
+# client_version_code
+field = msg_major_login.field.add()
+field.name = 'client_version_code'; field.number = 83; field.type = 9; field.label = 1
+# graphics_api
+field = msg_major_login.field.add()
+field.name = 'graphics_api'; field.number = 86; field.type = 9; field.label = 1
+# supported_astc_bitset
+field = msg_major_login.field.add()
+field.name = 'supported_astc_bitset'; field.number = 87; field.type = 13; field.label = 1
+# login_open_id_type
+field = msg_major_login.field.add()
+field.name = 'login_open_id_type'; field.number = 88; field.type = 5; field.label = 1
+# analytics_detail
+field = msg_major_login.field.add()
+field.name = 'analytics_detail'; field.number = 89; field.type = 12; field.label = 1
+# loading_time
+field = msg_major_login.field.add()
+field.name = 'loading_time'; field.number = 92; field.type = 13; field.label = 1
+# release_channel
+field = msg_major_login.field.add()
+field.name = 'release_channel'; field.number = 93; field.type = 9; field.label = 1
+# extra_info
+field = msg_major_login.field.add()
+field.name = 'extra_info'; field.number = 94; field.type = 9; field.label = 1
+# android_engine_init_flag
+field = msg_major_login.field.add()
+field.name = 'android_engine_init_flag'; field.number = 95; field.type = 13; field.label = 1
+# if_push
+field = msg_major_login.field.add()
+field.name = 'if_push'; field.number = 97; field.type = 5; field.label = 1
+# is_vpn
+field = msg_major_login.field.add()
+field.name = 'is_vpn'; field.number = 98; field.type = 5; field.label = 1
+# origin_platform_type
+field = msg_major_login.field.add()
+field.name = 'origin_platform_type'; field.number = 99; field.type = 9; field.label = 1
+# primary_platform_type
+field = msg_major_login.field.add()
+field.name = 'primary_platform_type'; field.number = 100; field.type = 9; field.label = 1
 
 # --- MajorLoginRes ---
-DESCRIPTOR_MajorLoginRes = _descriptor_pool.Default().AddSerializedFile(
-    b'\n\x13MajorLoginRes.proto\"\x99\x02\n\rMajorLoginRes\x12\x0b\n\x03url\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\x12\x13\n\x0b\x61\x63\x63ount_uid\x18\x03 \x01(\x04\x12\x0b\n\x03key\x18\x04 \x01(\x0c\x12\n\n\x02iv\x18\x05 \x01(\x0c\x12\x11\n\ttimestamp\x18\x06 \x01(\x03\x12\x14\n\x0c\x63ountry_code\x18\x07 \x01(\t\x12\x13\n\x0b\x61sset_bundle\x18\x08 \x01(\t\x12\x18\n\x10\x61nnouncement_url\x18\t \x01(\t\x12\x1a\n\x12maintenance_state\x18\n \x01(\x05\x12\x1a\n\x12\x63lient_kick_reason\x18\x0b \x01(\x05\x12\x14\n\x0c\x61nonymous_key\x18\x0c \x01(\t\x12\x12\n\ndebug_mode\x18\r \x01(\x08\x62\x06proto3'
-)
-_globals_MajorLoginRes = globals()
-_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR_MajorLoginRes, _globals_MajorLoginRes)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR_MajorLoginRes, 'MajorLoginRes_pb2', _globals_MajorLoginRes)
-if not _descriptor._USE_C_DESCRIPTORS:
-    DESCRIPTOR_MajorLoginRes._options = None
-    _globals_MajorLoginRes['_MAJORLOGINRES']._serialized_start = 24
-    _globals_MajorLoginRes['_MAJORLOGINRES']._serialized_end = 305
+DESCRIPTOR_MajorLoginRes = descriptor_pb2.FileDescriptorProto()
+DESCRIPTOR_MajorLoginRes.name = 'MajorLoginRes.proto'
+DESCRIPTOR_MajorLoginRes.package = ''
+DESCRIPTOR_MajorLoginRes.syntax = 'proto3'
 
-MajorLoginRes = _globals_MajorLoginRes.get('MajorLoginRes')
+msg_major_login_res = DESCRIPTOR_MajorLoginRes.message_type.add()
+msg_major_login_res.name = 'MajorLoginRes'
+field = msg_major_login_res.field.add()
+field.name = 'url'; field.number = 1; field.type = 9; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'token'; field.number = 2; field.type = 9; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'account_uid'; field.number = 3; field.type = 4; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'key'; field.number = 4; field.type = 12; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'iv'; field.number = 5; field.type = 12; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'timestamp'; field.number = 6; field.type = 3; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'country_code'; field.number = 7; field.type = 9; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'asset_bundle'; field.number = 8; field.type = 9; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'announcement_url'; field.number = 9; field.type = 9; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'maintenance_state'; field.number = 10; field.type = 5; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'client_kick_reason'; field.number = 11; field.type = 5; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'anonymous_key'; field.number = 12; field.type = 9; field.label = 1
+field = msg_major_login_res.field.add()
+field.name = 'debug_mode'; field.number = 13; field.type = 8; field.label = 1
 
 # --- GetLoginDataRes ---
-DESCRIPTOR_GetLoginDataRes = _descriptor_pool.Default().AddSerializedFile(
-    b'\n\x15GetLoginDataRes.proto\"\xa4\x01\n\x0cGetLoginData\x12\x12\n\nAccountUID\x18\x01 \x01(\x04\x12\x0e\n\x06Region\x18\x03 \x01(\t\x12\x13\n\x0b\x41\x63\x63ountName\x18\x04 \x01(\t\x12\x16\n\x0eOnline_IP_Port\x18\x0e \x01(\t\x12\x0f\n\x07\x43lan_ID\x18\x14 \x01(\x03\x12\x16\n\x0e\x41\x63\x63ountIP_Port\x18  \x01(\t\x12\x1a\n\x12\x43lan_Compiled_Data\x18\x37 \x01(\tb\x06proto3'
-)
-_globals_GetLoginDataRes = globals()
-_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR_GetLoginDataRes, _globals_GetLoginDataRes)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR_GetLoginDataRes, 'GetLoginDataRes_pb2', _globals_GetLoginDataRes)
-if not _descriptor._USE_C_DESCRIPTORS:
-    DESCRIPTOR_GetLoginDataRes._loaded_options = None
-    _globals_GetLoginDataRes['_GETLOGINDATA']._serialized_start = 26
-    _globals_GetLoginDataRes['_GETLOGINDATA']._serialized_end = 190
+DESCRIPTOR_GetLoginDataRes = descriptor_pb2.FileDescriptorProto()
+DESCRIPTOR_GetLoginDataRes.name = 'GetLoginDataRes.proto'
+DESCRIPTOR_GetLoginDataRes.package = ''
+DESCRIPTOR_GetLoginDataRes.syntax = 'proto3'
 
-GetLoginData = _globals_GetLoginDataRes.get('GetLoginData')
+msg_get_login_data = DESCRIPTOR_GetLoginDataRes.message_type.add()
+msg_get_login_data.name = 'GetLoginData'
+field = msg_get_login_data.field.add()
+field.name = 'AccountUID'; field.number = 1; field.type = 4; field.label = 1
+field = msg_get_login_data.field.add()
+field.name = 'Region'; field.number = 3; field.type = 9; field.label = 1
+field = msg_get_login_data.field.add()
+field.name = 'AccountName'; field.number = 4; field.type = 9; field.label = 1
+field = msg_get_login_data.field.add()
+field.name = 'Online_IP_Port'; field.number = 14; field.type = 9; field.label = 1
+field = msg_get_login_data.field.add()
+field.name = 'Clan_ID'; field.number = 20; field.type = 3; field.label = 1
+field = msg_get_login_data.field.add()
+field.name = 'AccountIP_Port'; field.number = 32; field.type = 9; field.label = 1
+field = msg_get_login_data.field.add()
+field.name = 'Clan_Compiled_Data'; field.number = 55; field.type = 9; field.label = 1
+
+# بناء الـ descriptors
+from google.protobuf import descriptor_pool as _descriptor_pool
+_pool = _descriptor_pool.Default()
+_pool.AddSerializedFile(DESCRIPTOR_MajorLoginReq.SerializeToString())
+_pool.AddSerializedFile(DESCRIPTOR_MajorLoginRes.SerializeToString())
+_pool.AddSerializedFile(DESCRIPTOR_GetLoginDataRes.SerializeToString())
+
+MajorLogin = _pool.FindMessageTypeByName('MajorLogin')
+MajorLoginRes = _pool.FindMessageTypeByName('MajorLoginRes')
+GetLoginData = _pool.FindMessageTypeByName('GetLoginData')
 
 # ============================================================
 # الثوابت والإعدادات
@@ -139,7 +341,7 @@ async def get_access_token(uid, password):
             return data.get("open_id"), data.get("access_token")
 
 async def build_major_login_payload(open_id, access_token):
-    major_login = MajorLogin()
+    major_login = _sym_db.GetMessageClass(MajorLogin)()
     major_login.event_time = "2025-06-04 19:48:07"
     major_login.game_name = "free fire"
     major_login.platform_id = 1
@@ -211,7 +413,7 @@ async def send_major_login(payload):
             return None
 
 def decode_major_login_response(response_bytes):
-    proto = MajorLoginRes()
+    proto = _sym_db.GetMessageClass(MajorLoginRes)()
     proto.ParseFromString(response_bytes)
     return proto
 
@@ -229,7 +431,7 @@ async def fetch_login_data(base_url, payload, token):
             return None
 
 def decode_get_login_data_response(response_bytes):
-    proto = GetLoginData()
+    proto = _sym_db.GetMessageClass(GetLoginData)()
     proto.ParseFromString(response_bytes)
     return proto
 
@@ -266,8 +468,8 @@ async def login_process(uid, password):
         f"• Encryption IV: `{major_data.iv.hex()}`"
     )
 
-# ============================================================
-# بوت تيليجرام
+#============================================================
+#بوت تيليجرام
 # ============================================================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
